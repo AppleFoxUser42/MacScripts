@@ -1,0 +1,44 @@
+#!/usr/bin/osascript -l JavaScript
+
+"use strict";
+
+function run(args) {
+    console.log("Run without parameters to show all non-Apple Kernelextensions.\nRun with -nl to show all non-Apple Kernelextensions which are not loaded.")
+
+    var app = Application.currentApplication();
+    app.includeStandardAdditions = true;
+
+    if (args == "") {
+        var kexts = (app.doShellScript("kextfind -not -b -is com.apple.")).split("\r");
+        
+        //Filterlist for Items belonging to Mac OS X according to Mac & i 3/2016
+        var compare = ["/Library/Extensions/ACS6x.kext",
+            "/Library/Extensions/ArcMSR.kext",
+            "/Library/Extensions/ATTOCelerityFC8.kext",
+            "/Library/Extensions/ATTOExpressSASHBA2.kext",
+            "/Library/Extensions/ATTOExpressSASRAID2.kext",
+            "/Library/Extensions/CalDigitHDProDrv.kext",
+            "/Library/Extensions/HighPointIOP.kext",
+            "/Library/Extensions/HighPointRR.kext",
+            "/Library/Extensions/PromiseSTEX.kext",
+            "/Library/Extensions/SoftRAID.kext"
+        ];
+        for (var i in kexts) {
+            for (var a in compare) {
+                if (compare[a] == kexts[i]) {
+                    kexts.splice(i);
+                }
+            }
+        }
+    } else {
+        var kexts = (app.doShellScript("kextfind -nl -or -w  -not -b -is com.apple.")).split("\r");
+    }
+    kexts.forEach(function(x) {
+        console.log(x);
+    });
+    //console.log(JSON.stringify(kexts));
+    /*app.chooseFromList(kexts, {
+        withPrompt: "Non-Apple Kernel Extensions (.kexts)"
+    });
+*/
+}

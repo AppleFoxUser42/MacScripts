@@ -1,0 +1,2 @@
+#A Collection of Scripts for Mac
+Ranging from simple lookup-tools to ease the use of cryptic commands like ``kextfind`` or ``launchctl``, to stuff for heightened convenience like a Finder-Service-Item to share stuff in your Dropbox Public Folder
